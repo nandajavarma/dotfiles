@@ -34,8 +34,10 @@ Bundle 'terryma/vim-multiple-cursors'
 Bundle 'bling/vim-airline'
 Bundle 'wesleyche/Trinity'
 Bundle 'rking/ag.vim'
+Bundle 'yakiang/excel.vim'
 " vim-scripts repos
 Bundle 'L9'
+Bundle 'vim-scripts/Conque-Shell'
 Bundle 'FuzzyFinder'
 Bundle 'scrooloose/nerdtree'
 Bundle 'kien/ctrlp.vim'
@@ -47,6 +49,7 @@ Bundle 'vim-scripts/PreciseJump'
 Bundle 'wincent/command-t'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'jeetsukumaran/vim-buffergator'
+Bundle 'christoomey/vim-tmux-navigator'
 filetype indent plugin on     " required!
 
 :set tabstop=2 shiftwidth=2 expandtab
@@ -71,10 +74,7 @@ nmap ,b :FufBuffer<CR>
 nmap ,t :FufTaggedFile<CR>
 set backspace=indent,eol,start
 autocmd FileType sml map <silent> <buffer> <leader><space> <leader>cd:w<cr>:!sml %<cr>
-autocmd FileType * match ErrorMsg '\%>100v.\+'
-autocmd FileType sml match ErrorMsg '\%>80v.\+'
-autocmd FileType mkd match none
-autocmd FileType unite match none
 " SML make code {{{
 autocmd FileType sml setlocal makeprg=rlwrap\ sml\ -P\ full\ '%'
 "  }}}
+let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docx,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptx,*.pptm,*.ppam,*.sldx,*.thmx,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx'

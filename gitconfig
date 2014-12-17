@@ -1,0 +1,18 @@
+[core]
+	excludesfile = /Users/nandajavarma/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[user]
+	name = Nandaja Varma 
+	email = nandaja.varma@gmail.com
+[push]
+  default = current
+[pull]
+  default = current
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f

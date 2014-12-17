@@ -19,8 +19,10 @@ alias prod="ssh ehq@smsworkz.engagementhq.com"
 alias stag="ssh ehq_staging@knock.anchor.net.au"
 alias cfd="cap feature deploy"
 alias vwrk="cd ~/Work/ehqv2; vim"
+alias gmd="git commit -a --amend --no-edit"
 function mcd() { mkdir $1 && cd $1; }
 function gcom() { git commit -m $1}
+function gcp() { git cherry-pick $1 }
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
