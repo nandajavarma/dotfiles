@@ -5,21 +5,23 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="gallois"
+ZSH_THEME="My-oh-my"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias c="clear"
 alias dev="ssh app@dev.engagementhq.com"
-alias wrk="cd ~/Work/ehqv2"
+alias wrk="cd ~/work/glusterfs"
+alias dance="cd ~/work/dance_school && /bin/zsh --login"
 alias be="bundle exec"
 alias b="bundle"
-alias prod="ssh ehq@smsworkz.engagementhq.com"
-alias stag="ssh ehq_staging@knock.anchor.net.au"
 alias cfd="cap feature deploy"
-alias vwrk="cd ~/Work/ehqv2; vim"
+alias vwrk="cd ~/work; vim"
 alias gmd="git commit -a --amend --no-edit"
+alias vm3="ssh root@10.70.43.1"
+alias vm2="ssh root@10.70.43.8"
+alias vm1="ssh root@10.70.43.31"
 function mcd() { mkdir $1 && cd $1; }
 function gcom() { git commit -m $1}
 function gcp() { git cherry-pick $1 }
@@ -66,7 +68,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -85,6 +87,9 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export EDITOR="vim"
 export PATH="$PATH:/usr/local/smlnj/bin"
+
+export GEM_PATH="$HOME/.rvm/gems/ruby-2.0.0-p247"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+PATH="/usr/local/heroku/bin:$PATH"
