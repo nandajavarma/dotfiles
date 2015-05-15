@@ -1,0 +1,11 @@
+[user]
+	name = Nandaja Varma
+	mail = nvarma@redhat.com
+	email = nandaja.varma@gmail.com
+[push]
+  default = current
+[pull]
+  default = current
+[filter "media"]
+  clean = git-media-clean %f
+  smudge = git-media-smudge %f

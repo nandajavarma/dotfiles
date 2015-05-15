@@ -58,6 +58,9 @@ Bundle 'derekwyatt/vim-scala'
 Bundle 'jeetsukumaran/vim-buffergator'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'panozzaj/vim-autocorrect'
+Bundle 'vim-scripts/haskell.vim'
+Bundle 'lukerandall/haskellmode-vim'
+:let g:haddock_browser="/usr/bin/firefox"
 filetype indent plugin on     " required!
 
 :set tabstop=8 shiftwidth=8 expandtab
@@ -109,3 +112,6 @@ set tags=./tags;/
 nmap <F15> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
   \:!cscope -b -i cscope.files -f cscope.out<CR>
   \:cs reset<CR>
+:nmap <C-e> :e#<CR>
+:nmap <C-q> :bnext<CR>
+:nmap <C-w> :bprev<CR>
