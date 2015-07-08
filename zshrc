@@ -23,6 +23,7 @@ alias vm3="ssh root@10.70.43.1"
 alias vm2="ssh root@10.70.43.8"
 alias vm1="ssh root@10.70.43.31"
 alias fuck='$(thefuck $(fc -ln -1))'
+alias pear='source ~/pears/bin/activate; cd ~/PeARS/'
 function mcd() { mkdir $1 && cd $1; }
 function gcom() { git commit -m $1}
 function gcp() { git cherry-pick $1 }
@@ -95,3 +96,12 @@ export PATH="$PATH:/usr/local/smlnj/bin"
 export GEM_PATH="$HOME/.rvm/gems/ruby-2.0.0-p247"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 PATH="/usr/local/heroku/bin:$PATH"
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/work/go
+export GOROOT=/usr/local/go
+if [[ ! $TERM =~ screen ]]; then
+    exec tmux
+    exec zsh
+fi
+export PYTHONPATH='/home/blr/nvarma/work/gluster-deploy/gluster-deploy/lib/'
+export PYTHONPATH='/home/blr/nvarma/work/gluster-deploy/gluster-deploy/'

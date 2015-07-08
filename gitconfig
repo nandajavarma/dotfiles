@@ -2,12 +2,12 @@
 	excludesfile = /Users/nandajavarma/.gitignore_global
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [user]
-	name = Nandaja Varma 
+	name = Nandaja Varma
 	email = nandaja.varma@gmail.com
 [push]
   default = current

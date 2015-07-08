@@ -24,7 +24,7 @@ let g:Powerline_mode_cv="V·BLOCK"
 let g:Powerline_mode_S="S·LINE"
 let g:Powerline_mode_cs="S·BLOCK"
 let g:airline_powerline_fonts = 1
-colorscheme desert
+colorscheme blackboard
 " let Vundle manage Vundle
 " required!
 Bundle 'gmarik/vundle'
@@ -33,6 +33,7 @@ Bundle 'gmarik/vundle'
 "
 " original repos on GitHub
 Bundle 'tpope/vim-fugitive'
+Bundle 'rickharris/vim-blackboard'
 Bundle 'ryanss/vim-hackernews'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
@@ -60,10 +61,13 @@ Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'panozzaj/vim-autocorrect'
 Bundle 'vim-scripts/haskell.vim'
 Bundle 'lukerandall/haskellmode-vim'
+Bundle 'fatih/vim-go'
+Bundle 'majutsushi/tagbar'
+Bundle 'rjohnsondev/vim-compiler-go'
 :let g:haddock_browser="/usr/bin/firefox"
 filetype indent plugin on     " required!
 
-:set tabstop=8 shiftwidth=8 expandtab
+:set tabstop=4 shiftwidth=4 expandtab
 cmap w!! w !sudo tee %
 " Strip the newline from the end of a string
 function! Chomp(str)
@@ -114,4 +118,47 @@ nmap <F15> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.
   \:cs reset<CR>
 :nmap <C-e> :e#<CR>
 :nmap <C-q> :bnext<CR>
-:nmap <C-w> :bprev<CR>
+:nmap <C-a> :bprev<CR>
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+nmap <F8> :TagbarToggle<CR>
+nmap <silent> <A-k> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
+:au FocusLost * silent! wa
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <C-c> :call NumberToggle()<cr>
+
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+
+:au FocusLost * :set number
+:au FocusGained * :set relativenumber
+
+noremap  <Up> ""
+noremap  <Down> ""
+noremap  <Left> ""
+noremap  <Right> ""
+:imap ;; <Esc>
+nmap <F2> gT
+nmap <F3> gt
+nnoremap <S-h> gT
+nnoremap <S-l> gt
+nnoremap <C-t>     :tabnew<CR>
+inoremap <C-t>     <Esc>:tabnew<CR>
+
+

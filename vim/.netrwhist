@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/home/blr/nvarma/work/gluster-playbook-gen/playbooks/group_vars'
+let g:netrw_dirhist_2='/home/blr/nvarma/work/gluster-playbook-gen'
+let g:netrw_dirhist_3='/home/blr/nvarma/work/ansible-glusterfs/tools/templates'
+let g:netrw_dirhist_4='/home/blr/nvarma/PeARS/app'
+let g:netrw_dirhist_5='/home/blr/nvarma/PeARS/web'
