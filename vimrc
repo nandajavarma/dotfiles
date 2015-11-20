@@ -24,7 +24,7 @@ let g:Powerline_mode_cv="V·BLOCK"
 let g:Powerline_mode_S="S·LINE"
 let g:Powerline_mode_cs="S·BLOCK"
 let g:airline_powerline_fonts = 1
-colorscheme desert
+colorscheme blackboard
 " let Vundle manage Vundle
 " required!
 Bundle 'gmarik/vundle'
@@ -60,10 +60,11 @@ Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'panozzaj/vim-autocorrect'
 Bundle 'vim-scripts/haskell.vim'
 Bundle 'lukerandall/haskellmode-vim'
+Bundle 'itchyny/calendar.vim'
 :let g:haddock_browser="/usr/bin/firefox"
 filetype indent plugin on     " required!
 
-:set tabstop=8 shiftwidth=8 expandtab
+:set tabstop=4 shiftwidth=4 expandtab
 cmap w!! w !sudo tee %
 " Strip the newline from the end of a string
 function! Chomp(str)
@@ -109,9 +110,43 @@ endif
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 set tags=./tags;/
-nmap <F15> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
+nmap <F12> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
   \:!cscope -b -i cscope.files -f cscope.out<CR>
   \:cs reset<CR>
 :nmap <C-e> :e#<CR>
 :nmap <C-q> :bnext<CR>
-:nmap <C-w> :bprev<CR>
+:imap  ;; <Esc>
+:nmap <C-t> :tabnew<CR>
+:nnoremap <S-h> gT
+:nnoremap <S-l> gt
+
+
+" Numbering
+
+
+
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <C-n> :call NumberToggle()<cr>
+
+
+
+:au FocusLost * :set number
+:au FocusGained * :set relativenumber
+
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+
+
+
+
+
+:nmap :cal :Calendar -view=year -split=horizontal -position=below -height=12
+autocmd Filetype gitcommit setlocal spell textwidth=72
+:set textwidth=72
