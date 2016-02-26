@@ -70,7 +70,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -90,8 +90,17 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 export EDITOR="vim"
-export PATH="$PATH:/usr/local/smlnj/bin"
+export GOPATH="$HOME/work"
 
-export GEM_PATH="$HOME/.rvm/gems/ruby-2.0.0-p247"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 PATH="/usr/local/heroku/bin:$PATH"
+if [ "$TMUX" = "" ]; then tmux; fi
+alias li='python3 ~/fun/lightning-cd/lightning-cd.py ~/.lightningpath && cd "`cat ~/.lightningpath`"'
+alias ansi='cd ~/work/gdeploy && source ~/work/ansi/bin/activate'
+alias bstr='cd ~/fun/bookstrs/bookstrs/src && source ~/fun/bookstrs/bookstrs/bookstrs/bin/activate'
+export  PYTHONPATH='/home/gem/work/gdeploy'
+export GDEPLOY_TEMPLATES=/home/gem/work/gdeploy
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+export GDEPLOY_TEMPLATES=/home/gem/work/gdeploy
+export LD_LIBRARY_PATH=:/usr/local/lib:/usr/local/lib
+export PKG_CONFIG_PATH=:/usr/local/lib/pkgconfig:/usr/local/lib/pkgconfig

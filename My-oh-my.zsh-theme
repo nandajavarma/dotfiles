@@ -49,8 +49,7 @@ default revision") == 0 ]]; then
             fi
 
             if [ "$HOURS" -gt 24 ]; then
-                echo
-"($COLOR${DAYS}d${SUB_HOURS}h${SUB_MINUTES}m%{$reset_color%})"
+                echo ""
             elif [ "$MINUTES" -gt 60 ]; then
                 echo "($COLOR${HOURS}h${SUB_MINUTES}m%{$reset_color%})"
             else

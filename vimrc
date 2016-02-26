@@ -19,15 +19,23 @@ set encoding=utf-8
 set fillchars+=stl:\ ,stlnc:\
 set laststatus=2
 set t_Co=256
+set ff=unix
 let g:Powerline_mode_V="V·LINE"
 let g:Powerline_mode_cv="V·BLOCK"
 let g:Powerline_mode_S="S·LINE"
 let g:Powerline_mode_cs="S·BLOCK"
 let g:airline_powerline_fonts = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 colorscheme blackboard
 " let Vundle manage Vundle
 " required!
 Bundle 'gmarik/vundle'
+Bundle 'fatih/vim-go'
 "autocmd vimenter * if !argc() NERDTree | endif
 " My bundles here:
 "
