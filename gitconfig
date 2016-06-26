@@ -1,5 +1,6 @@
 [core]
 	excludesfile = /Users/nandajavarma/.gitignore_global
+	autocrlf = true
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

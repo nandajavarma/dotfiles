@@ -96,11 +96,16 @@ PATH="/usr/local/heroku/bin:$PATH"
 if [ "$TMUX" = "" ]; then tmux; fi
 alias li='python3 ~/fun/lightning-cd/lightning-cd.py ~/.lightningpath && cd "`cat ~/.lightningpath`"'
 alias ansi='cd ~/work/gdeploy && source ~/work/ansi/bin/activate'
+alias pear='cd ~/fun/PeARS/ && source ~/fun/PeARS/pear/bin/activate'
 alias bstr='cd ~/fun/bookstrs/bookstrs/src && source ~/fun/bookstrs/bookstrs/bookstrs/bin/activate'
 export  PYTHONPATH='/home/gem/work/gdeploy'
 export GDEPLOY_TEMPLATES=/home/gem/work/gdeploy
-export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/fun:$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export GDEPLOY_TEMPLATES=/home/gem/work/gdeploy
 export LD_LIBRARY_PATH=:/usr/local/lib:/usr/local/lib
 export PKG_CONFIG_PATH=:/usr/local/lib/pkgconfig:/usr/local/lib/pkgconfig
+function gho () {
+    open "https://`git config --get remote.origin.url|sed -e s/.git//g|sed s,:,/,g`/$1"
+}
+alias open='xdg-open'
