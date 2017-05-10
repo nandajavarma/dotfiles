@@ -2,6 +2,7 @@ syntax on
 set number
 set wildmode=longest,list,full
 set cursorline
+colorscheme slate
 set wildmenu
 set hlsearch
 set directory=~/.vim/swap,.
@@ -31,7 +32,6 @@ let g:go_highlight_structs = 1
 let g:go_highlight_interfaces = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-colorscheme blackboard
 " let Vundle manage Vundle
 " required!
 Bundle 'gmarik/vundle'
@@ -41,19 +41,15 @@ Bundle 'fatih/vim-go'
 "
 " original repos on GitHub
 Bundle 'tpope/vim-fugitive'
-Bundle 'ryanss/vim-hackernews'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'tpope/vim-rails.git'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'bling/vim-airline'
 Bundle 'wesleyche/Trinity'
 Bundle 'rking/ag.vim'
-Bundle 'yakiang/excel.vim'
 " vim-scripts repos
 Bundle 'L9'
 Bundle 'taglist.vim'
-Bundle 'vim-scripts/Conque-Shell'
 Bundle 'FuzzyFinder'
 Bundle 'scrooloose/nerdtree'
 Bundle 'kien/ctrlp.vim'
@@ -62,15 +58,27 @@ Bundle 'tpope/vim-surround'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'mileszs/ack.vim'
 Bundle 'vim-scripts/PreciseJump'
-Bundle 'derekwyatt/vim-scala'
 Bundle 'jeetsukumaran/vim-buffergator'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'panozzaj/vim-autocorrect'
-Bundle 'vim-scripts/haskell.vim'
-Bundle 'lukerandall/haskellmode-vim'
 Bundle 'itchyny/calendar.vim'
+Bundle 'tpope/vim-fireplace'
+Bundle 'slashmili/alchemist.vim'
+Bundle 'elixir-lang/vim-elixir'
+Bundle "tommcdo/vim-exchange"
+Bundle 'NLKNguyen/papercolor-theme'
+Bundle 'janko-m/vim-test'
+
+" Collaborative editing with DOM
+Bundle 'FredKSchott/CoVim'
+
 :let g:haddock_browser="/usr/bin/firefox"
 filetype indent plugin on     " required!
+"python from powerline.vim import setup as powerline_setup
+"python powerline_setup()
+"python del powerline_setup
+
+"set laststatus=2
 
 :set tabstop=4 shiftwidth=4 expandtab
 cmap w!! w !sudo tee %
@@ -127,6 +135,13 @@ nmap <F12> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.
 :nmap <C-t> :tabnew<CR>
 :nnoremap <S-h> gT
 :nnoremap <S-l> gt
+let g:alchemist_tag_disable = 1
+
+
+let g:alchemist_tag_map = '<C-]>'
+let g:alchemist_tag_stack_map = '<C-m>'
+
+
 
 
 " Numbering
@@ -158,3 +173,10 @@ autocmd InsertLeave * :set relativenumber
 :nmap :cal :Calendar -view=year -split=horizontal -position=below -height=12
 autocmd Filetype gitcommit setlocal spell textwidth=72
 :set textwidth=72
+
+
+nmap <silent> <leader>q :TestNearest<CR>
+nmap <silent> <leader>Q :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>

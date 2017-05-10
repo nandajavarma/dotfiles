@@ -5,24 +5,20 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="My-oh-my"
+ZSH_THEME="gallois"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias c="clear"
-alias dev="ssh app@dev.engagementhq.com"
-alias wrk="cd ~/work/glusterfs"
-alias dance="cd ~/work/dance_school && /bin/zsh --login"
+alias emacs="emacs -nw"
+alias prod="ssh pearuser@139.162.36.195"
 alias be="bundle exec"
 alias b="bundle"
-alias cfd="cap feature deploy"
-alias vwrk="cd ~/work; vim"
 alias gmd="git commit --amend --no-edit"
-alias vm3="ssh root@10.70.43.1"
-alias vm2="ssh root@10.70.43.8"
-alias vm1="ssh root@10.70.43.31"
+alias stag="ssh pearuser@139.162.23.202"
 alias fuck='$(thefuck $(fc -ln -1))'
+alias fds='cd ~/workspace/RC'
 function mcd() { mkdir $1 && cd $1; }
 function gcom() { git commit -m $1}
 function gcp() { git cherry-pick $1 }
@@ -100,8 +96,6 @@ alias pear='cd ~/fun/PeARS/ && source ~/fun/PeARS/pear/bin/activate'
 alias bstr='cd ~/fun/bookstrs/bookstrs/src && source ~/fun/bookstrs/bookstrs/bookstrs/bin/activate'
 export  PYTHONPATH='/home/gem/work/gdeploy'
 export GDEPLOY_TEMPLATES=/home/gem/work/gdeploy
-export PATH="$HOME/fun:$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
 export GDEPLOY_TEMPLATES=/home/gem/work/gdeploy
 export LD_LIBRARY_PATH=:/usr/local/lib:/usr/local/lib
 export PKG_CONFIG_PATH=:/usr/local/lib/pkgconfig:/usr/local/lib/pkgconfig
@@ -109,3 +103,12 @@ function gho () {
     open "https://`git config --get remote.origin.url|sed -e s/.git//g|sed s,:,/,g`/$1"
 }
 alias open='xdg-open'
+export PATH=$HOME/bin:$PATH
+
+# Initialization for FDK command line tools.Wed Mar 15 15:33:53 2017
+FDK_EXE="/home/gem/bin/FDK/Tools/linux"
+PATH=${PATH}:"/home/gem/bin/FDK/Tools/linux"
+export PATH
+export FDK_EXE
+bindkey "" clear
+function chat { echo "$USER: $@" >> /tmp/talkfile; }
