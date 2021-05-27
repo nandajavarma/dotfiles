@@ -2,7 +2,7 @@ syntax on
 set number
 set wildmode=longest,list,full
 set cursorline
-colorscheme slate
+colorscheme torte
 set wildmenu
 set hlsearch
 set directory=~/.vim/swap,.
@@ -35,42 +35,28 @@ let g:go_highlight_build_constraints = 1
 " let Vundle manage Vundle
 " required!
 Bundle 'gmarik/vundle'
-Bundle 'fatih/vim-go'
-"autocmd vimenter * if !argc() NERDTree | endif
-" My bundles here:
-"
+Bundle 'tpope/vim-fireplace'
+Bundle 'eiginn/netrw'
 " original repos on GitHub
+Bundle 'ryanss/vim-hackernews'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'bling/vim-airline'
-Bundle 'wesleyche/Trinity'
 Bundle 'rking/ag.vim'
 " vim-scripts repos
-Bundle 'L9'
-Bundle 'taglist.vim'
-Bundle 'FuzzyFinder'
 Bundle 'scrooloose/nerdtree'
 Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-surround'
+Bundle 'vim-syntastic/syntastic'
 Bundle 'scrooloose/nerdcommenter'
-Bundle 'mileszs/ack.vim'
-Bundle 'vim-scripts/PreciseJump'
 Bundle 'jeetsukumaran/vim-buffergator'
-Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'panozzaj/vim-autocorrect'
 Bundle 'itchyny/calendar.vim'
-Bundle 'tpope/vim-fireplace'
 Bundle 'slashmili/alchemist.vim'
 Bundle 'elixir-lang/vim-elixir'
-Bundle "tommcdo/vim-exchange"
-Bundle 'NLKNguyen/papercolor-theme'
 Bundle 'janko-m/vim-test'
-
-" Collaborative editing with DOM
-Bundle 'FredKSchott/CoVim'
+Bundle 'vimwiki/vimwiki'
+Bundle 'LaTeX-Box-Team/LaTeX-Box'
+Bundle 'godlygeek/tabular'
 
 :let g:haddock_browser="/usr/bin/firefox"
 filetype indent plugin on     " required!
@@ -86,25 +72,6 @@ cmap w!! w !sudo tee %
 function! Chomp(str)
   return substitute(a:str, '\n$', '', '')
 endfunction
-
-" Find a file and pass it to cmd
-function! DmenuOpen(cmd)
-  let fname = Chomp(system("git ls-files | dmenu -i -l 20 -p " . a:cmd))
-  if empty(fname)
-    return
-  endif
-  execute a:cmd . " " . fname
-endfunction
-map <c-t> :call DmenuOpen("tabe")<cr>
-map <c-f> :call DmenuOpen("e")<cr>
-nmap ,f :FufFileWithCurrentBufferDir<CR>
-nmap ,b :FufBuffer<CR>
-nmap ,t :FufTaggedFile<CR>
-set backspace=indent,eol,start
-autocmd FileType sml map <silent> <buffer> <leader><space> <leader>cd:w<cr>:!sml %<cr>
-" SML make code {{{
-autocmd FileType sml setlocal makeprg=rlwrap\ sml\ -P\ full\ '%'
-"  }}}
 let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docx,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptx,*.pptm,*.ppam,*.sldx,*.thmx,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx'
 if has('cscope')
   set cscopetag cscopeverbose
@@ -180,3 +147,16 @@ nmap <silent> <leader>Q :TestFile<CR>
 nmap <silent> <leader>a :TestSuite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
+" When you open a file, you can undo changes you made previously
+set undofile
+set undodir=~/.vim/undo/
+
+
+" copying from clipboard:
+vnoremap <leader>y "+y
+nnoremap <leader>y "+y
+
+" paste from clipboard
+vnoremap <leader>p "+p
+noremap <leader>p "+p
+noremap <leader>P "+P
