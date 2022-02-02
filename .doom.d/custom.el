@@ -3,19 +3,47 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#002732" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5" "#8d9fa1"])
  '(custom-safe-themes
-   '("c4bdbbd52c8e07112d1bfd00fee22bf0f25e727e95623ecb20c4fa098b74c1bd" "79278310dd6cacf2d2f491063c4ab8b129fee2a498e4c25912ddaa6c3c5b621e" "0e2a7e1e632dd38a8e0227d2227cb8849f877dd878afb8219cb6bcdd02068a52" "2c49d6ac8c0bf19648c9d2eabec9b246d46cb94d83713eaae4f26b49a8183fc4" "e6ff132edb1bfa0645e2ba032c44ce94a3bd3c15e3929cdf6c049802cf059a2a" "ca70827910547eb99368db50ac94556bbd194b7e8311cfbdbdcad8da65e803be" "e1ef2d5b8091f4953fe17b4ca3dd143d476c106e221d92ded38614266cea3c8b" "2cdc13ef8c76a22daa0f46370011f54e79bae00d5736340a5ddfe656a767fddf" "6c3b5f4391572c4176908bb30eddc1718344b8eaff50e162e36f271f6de015ca" "0fe24de6d37ea5a7724c56f0bb01efcbb3fe999a6e461ec1392f3c3b105cc5ac" "56d10d2b60685d112dd54f4ba68a173c102eacc2a6048d417998249085383da1" "76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" "0a41da554c41c9169bdaba5745468608706c9046231bbbc0d155af1a12f32271" "4bca89c1004e24981c840d3a32755bf859a6910c65b829d9441814000cf6c3d0" default))
- '(org-capture-templates
-   '(("t" "todo" entry
-      (file+headline "~/emacs_notes/projects.org" "Inbox")
-      "* %?
-%a
-" :clock-keep t)
-     ("s" "schedule" entry
-      (file+headline "~/emacs_notes/projects.org" "Inbox")
-      "* %?
-SCHEDULED: %t" :clock-keep t)))
- '(package-selected-packages '(evil-multiedit org-gcal helm)))
+   '("da186cce19b5aed3f6a2316845583dbee76aea9255ea0da857d1c058ff003546" "f6665ce2f7f56c5ed5d91ed5e7f6acb66ce44d0ef4acfaa3a42c7cfe9e9a9013" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" default))
+ '(exwm-floating-border-color "#011417")
+ '(fci-rule-color "#62787f")
+ '(highlight-tail-colors
+   ((("#0e332f" "#0e332f" "green")
+     . 0)
+    (("#06343d" "#06343d" "brightcyan")
+     . 20)))
+ '(jdee-db-active-breakpoint-face-colors (cons "#01323d" "#3c98e0"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#01323d" "#93a61a"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#01323d" "#56697A"))
+ '(objed-cursor-color "#ec423a")
+ '(package-selected-packages '(indent-guide go yasnippet ##))
+ '(pdf-view-midnight-colors (cons "#8d9fa1" "#002732"))
+ '(rustic-ansi-faces
+   ["#002732" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5" "#8d9fa1"])
+ '(vc-annotate-background "#002732")
+ '(vc-annotate-color-map
+   (list
+    (cons 20 "#93a61a")
+    (cons 40 "#a3a019")
+    (cons 60 "#b39b19")
+    (cons 80 "#c49619")
+    (cons 100 "#cb811c")
+    (cons 120 "#d36c1f")
+    (cons 140 "#db5823")
+    (cons 160 "#dd5247")
+    (cons 180 "#df4c6b")
+    (cons 200 "#e2468f")
+    (cons 220 "#e54472")
+    (cons 240 "#e84356")
+    (cons 260 "#ec423a")
+    (cons 280 "#c64b4a")
+    (cons 300 "#a1555a")
+    (cons 320 "#7b5f6a")
+    (cons 340 "#62787f")
+    (cons 360 "#62787f")))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
