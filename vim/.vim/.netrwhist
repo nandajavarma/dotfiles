@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/home/gem/work/gdeploy/features/subscription-manager'
-let g:netrw_dirhist_2='/home/gem/work/gdeploy/gdeployrest'
-let g:netrw_dirhist_3='/home/gem/work/gdeploy'
-let g:netrw_dirhist_4='/home/gem/work/gdeploy/playbooks'
-let g:netrw_dirhist_5='/home/gem/fun/scrapy/trialcrawl/trialcrawl'
-let g:netrw_dirhist_6='/home/gem/work/heketi_api'
-let g:netrw_dirhist_7='/home/gem/fun/django2/trial/form'

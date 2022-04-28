@@ -125,17 +125,18 @@
 ;;; to get the file during org capture
 ;; (org-capture-get :original-file)
 (setq org-capture-templates
- '(("s" "SIGHUP" entry
+ '(("w" "work" entry
         (file+headline "~/Workspace/agenda/work.org" "Inbox")
-        "* %? :sighup: \n%a\n"
+        "* %? :work: \n%a\n"
         :prepend t
         :empty-lines 1
         :CREATED t
         :clock-keep t)
         ("p" "project" entry
-        (file+headline "~/Workspace/agenda/projects.org" "Inbox")
-        "* %? :project:\n%a\n")
-        ("t" "personal todo" entry
+        (file+headline "~/Workspace/agenda/projects.org" "Inbox") "* %? :project:\n%a\n")
+        ("t" "tech learning" entry
+        (file+headline "~/Workspace/agenda/learn.org" "Inbox") "* %? :tech:\n%a\n")
+        ("c" "chores" entry
         (file+headline "~/Workspace/agenda/chore.org" "Inbox") "* %U %? :chore: \n%a\n" :clock-keep t)
         ("n" "quick note" entry
         (file+headline "~/Workspace/agenda/todo.org" "Inbox") "* %U %? :NOTE:\n\n %i\n %a" :clock-keep t)
@@ -158,6 +159,7 @@
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
                       (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-prefix-format "   %-2i %?b")
+                      (org-agenda-skip-entry-if 'todo '("TODO" "WAITING"))
                       (org-agenda-todo-keyword-format "")))
 
          (tags "+NOTE-TODO=\"TODO\"" (
@@ -165,12 +167,14 @@
                       (org-agenda-overriding-header "⚡ Notes")
                       (org-agenda-remove-tags t)
                       (org-agenda-prefix-format "   %-2i %?b")
+                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
                       (org-agenda-todo-keyword-format "")))
          (tags "+book-TODO=\"TODO\"" (
                       (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-overriding-header "📚 Books and Blogs")
                       (org-agenda-remove-tags t)
                       (org-agenda-prefix-format "   %-2i %?b")
+                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
                       (org-agenda-todo-keyword-format "")))
          ;; (todo "NEXT" (
          ;;              (org-agenda-todo-ignore-scheduled 'all)
@@ -179,13 +183,23 @@
          ;;              (org-agenda-prefix-format "   %-2i %?b")
          ;;              (org-agenda-todo-keyword-format "")))
 
-         (tags "+sighup-TODO=\"TODO\"" (
+         (tags "+work-TODO=\"TODO\"" (
                       ;; (org-agenda-todo-ignore-scheduled 'all)
-                      (org-agenda-overriding-header "🧠 SIGHUP")
+                      (org-agenda-overriding-header "🧠 Work")
                       (org-agenda-remove-tags t)
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-show-inherited-tags nil)
                       (org-agenda-prefix-format "   %-2i %?b")
+                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
+                      (org-agenda-todo-keyword-format "")))
+         (tags "+tech-TODO=\"TODO\"" (
+                      ;; (org-agenda-todo-ignore-scheduled 'all)
+                      (org-agenda-overriding-header "🧠 Learning")
+                      (org-agenda-remove-tags t)
+                      (org-tags-match-list-sublevels nil)
+                      (org-agenda-show-inherited-tags nil)
+                      (org-agenda-prefix-format "   %-2i %?b")
+                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
                       (org-agenda-todo-keyword-format "")))
          (tags "+project-TODO=\"TODO\"" (
                       (org-agenda-overriding-header "\n🛹 Projects")
@@ -193,6 +207,7 @@
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-show-inherited-tags nil)
                       (org-agenda-prefix-format "   %-2i %?b")
+                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
                       (org-agenda-todo-keyword-format "")))
           ))))
 
