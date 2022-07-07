@@ -112,7 +112,8 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
 	startx
 fi
 
-[[ $TERM != "screen" ]] && exec tmux
+# below line is only necessary for tmux
+#[[ $TERM != "screen" ]] && exec tmux
 
 GTK_IM_MODULE=ibus
 QT_IM_MODULE=ibus
