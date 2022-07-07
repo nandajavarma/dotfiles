@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+ZSH_THEME="amuse"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,7 +70,8 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git kubectl aws docker golang kubectx tmux)
+
 
 source $ZSH/oh-my-zsh.sh
 
@@ -102,6 +103,7 @@ source $ZSH/oh-my-zsh.sh
 alias gmd="git commit --amend --no-edit"
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
+alias gtp="/usr/bin/gp"
 
 set -o vi
 bindkey "^A" beginning-of-line
@@ -112,8 +114,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
 	startx
 fi
 
-# below line is only necessary for tmux
-#[[ $TERM != "screen" ]] && exec tmux
+[[ $TERM != "screen" ]] && exec tmux
 
 GTK_IM_MODULE=ibus
 QT_IM_MODULE=ibus
