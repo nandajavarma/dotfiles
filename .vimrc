@@ -2,7 +2,7 @@ syntax on
 set number
 set wildmode=longest,list,full
 set cursorline
-colorscheme torte
+colorscheme default
 set wildmenu
 set hlsearch
 set directory=~/.vim/swap,.
@@ -32,31 +32,27 @@ let g:go_highlight_structs = 1
 let g:go_highlight_interfaces = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-" let Vundle manage Vundle
-" required!
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-fireplace'
-Bundle 'eiginn/netrw'
-" original repos on GitHub
-Bundle 'ryanss/vim-hackernews'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'bling/vim-airline'
-Bundle 'rking/ag.vim'
-" vim-scripts repos
-Bundle 'scrooloose/nerdtree'
-Bundle 'kien/ctrlp.vim'
-Bundle 'vim-syntastic/syntastic'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'jeetsukumaran/vim-buffergator'
-Bundle 'itchyny/calendar.vim'
-Bundle 'slashmili/alchemist.vim'
-Bundle 'elixir-lang/vim-elixir'
-Bundle 'janko-m/vim-test'
-Bundle 'vimwiki/vimwiki'
-Bundle 'LaTeX-Box-Team/LaTeX-Box'
-Bundle 'godlygeek/tabular'
+Plugin 'gmarik/vundle'
+Plugin 'tpope/vim-fireplace'
+Plugin 'eiginn/netrw'
+Plugin 'ryanss/vim-hackernews'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'bling/vim-airline'
+Plugin 'rking/ag.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'jeetsukumaran/vim-buffergator'
+Plugin 'itchyny/calendar.vim'
+Plugin 'slashmili/alchemist.vim'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'janko-m/vim-test'
+Plugin 'vimwiki/vimwiki'
+Plugin 'LaTeX-Box-Team/LaTeX-Box'
+Plugin 'godlygeek/tabular'
 
 :let g:haddock_browser="/usr/bin/firefox"
 filetype indent plugin on     " required!
