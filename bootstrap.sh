@@ -15,8 +15,7 @@ rm -rf ~/.oh-my-zsh
 
 yes |  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-sudo apt update && sudo apt install -y tmux cron
-
+sudo apt update && sudo apt install -y tmux cron gettext azure-cli
 
 curl https://raw.githubusercontent.com/nandajavarma/dotfiles/master/.zshrc >> ~/.zshrc
 
