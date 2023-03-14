@@ -38,7 +38,7 @@
          (consult-async-split-styles-alist consult-async-split-styles-alist))
     ;; Change the split style if the initial query contains the separator.
     (when query
-      (cl-destructuring-bind (&key type separator initial)
+      (cl-destructuring-bind (&key type separator initial _function)
           (consult--async-split-style)
         (pcase type
           (`separator
@@ -205,43 +205,6 @@ targets."
          keymap)
        nil nil t (lambda (binding)
                    (not (string-suffix-p "-argument" (cdr binding))))))))
-
-;;;###autoload
-(defun +vertico/crm-select ()
-  "Toggle selection of current candidate in `consult-completing-read-multiple'.
-If the candidate has been selected, move the index up by one, to allow for quick
-selection of multiple subsequent candidates."
-  (interactive)
-  (let* ((selected-p (get-text-property 0 'consult--crm-selected (vertico--candidate)))
-         (goto-idx (+ vertico--index (if selected-p 0 1))))
-    (run-at-time 0 nil (cmd! (vertico--goto goto-idx) (vertico--exhibit))))
-  (vertico-exit))
-
-;;;###autoload
-(defun +vertico/crm-select-keep-input ()
-  "Like `+vertico/crm-select', but keeps the current minibuffer input."
-  (interactive)
-  (let* ((input (substring-no-properties (car vertico--input)))
-         (selected-p (get-text-property 0 'consult--crm-selected (vertico--candidate)))
-         (goto-idx (+ vertico--index (if selected-p 0 1))))
-    (run-at-time 0 nil (cmd! (insert input) (vertico--exhibit) (vertico--goto goto-idx) (vertico--exhibit))))
-  (vertico-exit))
-
-;;;###autoload
-(defun +vertico/crm-exit ()
-  "Exit `consult-completing-read-multiple' session in a dwim way.
-If there are no selected candidates, select the current candidate and exit.
-If there are selected candidates, disregard the current candidate and exit."
-  (interactive)
-  (if (consult--crm-selected)
-      (progn
-        (when (minibuffer-contents)
-          (delete-minibuffer-contents)
-          (vertico--exhibit))
-        (vertico--goto -1)
-        (vertico-exit))
-    (run-at-time 0 nil #'vertico-exit)
-    (vertico-exit)))
 
 ;;;###autoload
 (defun +vertico--consult--fd-builder (input)

@@ -38,7 +38,7 @@
     (set-repl-handler! 'clojurescript-mode #'+clojure/open-cljs-repl :persist t)
     (set-eval-handler! '(clojure-mode clojurescript-mode clojurec-mode) #'cider-eval-region))
 
-  ;; HACK Fix raxod502/radian#446: CIDER tries to calculate the frame's
+  ;; HACK Fix radian-software/radian#446: CIDER tries to calculate the frame's
   ;;   background too early; sometimes before the initial frame has been
   ;;   initialized, causing errors.
   (defvar cider-docview-code-background-color nil)
@@ -87,7 +87,7 @@
     (add-hook! 'cider-mode-hook
       (defun +clojure--cider-disable-completion ()
         "Use lsp completion instead of cider."
-        (remove-hook 'completion-at-point-functions #'cider-complete-at-point))))
+        (remove-hook 'completion-at-point-functions #'cider-complete-at-point t))))
 
   ;; Error messages emitted from CIDER is silently funneled into *nrepl-server*
   ;; rather than the *cider-repl* buffer. How silly. We might want to see that

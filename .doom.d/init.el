@@ -124,6 +124,21 @@
        ;;elixir            ; erlang done right
        ;;elm               ; care for a cup of TEA?
        emacs-lisp        ; drown in parentheses
+
+       ;; (html :variables html-enable-lsp nil)
+       ;; tide
+       ;; (node :variables node-add-modules-path t)
+       ;; (javascript :variables
+       ;;             javascript-backend 'tide
+       ;;             javascript-lsp-linter nil
+       ;;             javascript-fmt-tool 'prettier
+       ;;             javascript-repl 'nodejs)
+       ;; react
+       ;; (typescript :variables
+       ;;             typescript-backend 'tide
+       ;;             typescript-linter 'eslint
+       ;;             typescript-fmt-tool 'prettier
+       ;;             typescript-lsp-linter nil)
        ;;erlang            ; an elegant language for a more civilized age
        ;;ess               ; emacs speaks statistics
        ;;factor

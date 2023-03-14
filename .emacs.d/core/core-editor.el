@@ -306,6 +306,11 @@ tell you about it. Very annoying. This prevents that."
         (abbreviate-file-name (file-truename (tramp-file-name-localname tfile)))
       file))
 
+  ;; Anything in runtime folders
+  (add-to-list 'recentf-exclude
+               (concat "^" (regexp-quote (or (getenv "XDG_RUNTIME_DIR")
+                                             "/run"))))
+
   ;; Resolve symlinks, strip out the /sudo:X@ prefix in local tramp paths, and
   ;; abbreviate $HOME -> ~ in filepaths (more portable, more readable, & saves
   ;; space)
@@ -479,7 +484,7 @@ files, so this replace calls to `pp' with the much faster `prin1'."
 
 (use-package! dtrt-indent
   ;; Automatic detection of indent settings
-  :when doom-interactive-p
+  :unless noninteractive
   ;; I'm not using `global-dtrt-indent-mode' because it has hard-coded and rigid
   ;; major mode checks, so I implement it in `doom-detect-indentation-h'.
   :hook ((change-major-mode-after-body read-only-mode) . doom-detect-indentation-h)
@@ -491,7 +496,7 @@ files, so this replace calls to `pp' with the much faster `prin1'."
                 (memq major-mode doom-detect-indentation-excluded-modes)
                 (member (substring (buffer-name) 0 1) '(" " "*")))
       ;; Don't display messages in the echo area, but still log them
-      (let ((inhibit-message (not doom-debug-p)))
+      (let ((inhibit-message (not init-file-debug)))
         (dtrt-indent-mode +1))))
 
   ;; Enable dtrt-indent even in smie modes so that it can update `tab-width',
@@ -550,7 +555,27 @@ files, so this replace calls to `pp' with the much faster `prin1'."
       (button-type-put
        var-bt 'action
        (lambda (button)
-         (helpful-variable (button-get button 'apropos-symbol)))))))
+         (helpful-variable (button-get button 'apropos-symbol))))))
+
+  (when EMACS29+
+    ;; REVIEW This should be reported upstream to Emacs.
+    (defadvice! doom--find-function-search-for-symbol-save-excursion-a (fn &rest args)
+      "Suppress cursor movement by `find-function-search-for-symbol'.
+
+Addresses an unwanted side-effect in `find-function-search-for-symbol' on Emacs
+29 where the cursor is moved to a variable's definition if it's defined in the
+current buffer."
+      :around #'find-function-search-for-symbol
+      (let (buf pos)
+        (letf! (defun find-library-name (library)
+                 (let ((filename (funcall find-library-name library)))
+                   (with-current-buffer (find-file-noselect filename)
+                     (setq buf (current-buffer)
+                           pos (point)))
+                   filename))
+          (prog1 (apply fn args)
+            (when (buffer-live-p buf)
+              (with-current-buffer buf (goto-char pos)))))))))
 
 
 ;;;###package imenu

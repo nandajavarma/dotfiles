@@ -51,6 +51,8 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(add-to-list 'load-path "~/.emacs.d/tramp/lisp/")
+(require 'tramp)
 
 
 ;; ----#START theme setup-----
@@ -118,79 +120,113 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 ;; (setq org-directory "~/org/")
+
+;; Org-habit
+(require 'org-habit)
+(add-to-list 'org-modules 'org-habit)
+(use-package! org-habit
+  :after org
+  :config
+  (setq org-habit-following-days 7
+        org-habit-preceding-days 35
+        org-habit-show-habits t)  )
+(setq modus-themes-org-agenda
+      '(;; ...
+        ;; Other key . value pairs
+        ;; ...
+        (habit . traffic-light)))
+
+
 (setq org-agenda-files '("~/Workspace/agenda/"))
 
 ;;;-----#START org capture-------------
 ;;;
 ;;; to get the file during org capture
 ;; (org-capture-get :original-file)
+;;
+;;
+;; (after! org
+;;        (add-to-list 'org-capture-templates
 (setq org-capture-templates
- '(("w" "work" entry
-        (file+headline "~/Workspace/agenda/work.org" "Inbox")
-        "* %? :work: \n%a\n"
-        :prepend t
-        :empty-lines 1
-        :CREATED t
-        :clock-keep t)
-        ("p" "project" entry
-        (file+headline "~/Workspace/agenda/projects.org" "Inbox") "* %? :project:\n%a\n")
+      '(
+        ("w" "work" entry
+                (file+headline "~/Workspace/agenda/work.org" "Inbox")
+                "* %?  %(org-set-tags \"work\")"
+                :prepend t
+                :empty-lines 1
+                :CREATED t
+                :clock-keep t
+        )
+        ("u" "project" entry
+                (file+headline "~/Workspace/agenda/projects.org" "Inbox")
+                "* %? :project:\n%a\n"
+                :prepend t
+                :empty-lines 1
+        )
         ("t" "tech learning" entry
-        (file+headline "~/Workspace/agenda/learn.org" "Inbox") "* %? :tech:\n%a\n")
+                (file+headline "~/Workspace/agenda/learn.org" "Inbox")
+                "* %? :tech:\n%a\n")
         ("c" "chores" entry
-        (file+headline "~/Workspace/agenda/chore.org" "Inbox") "* %U %? :chore: \n%a\n" :clock-keep t)
+                (file+headline "~/Workspace/agenda/chore.org" "Inbox")
+                "* %U %? :chore: \n%a\n" :clock-keep t)
         ("n" "quick note" entry
-        (file+headline "~/Workspace/agenda/todo.org" "Inbox") "* %U %? :NOTE:\n\n %i\n %a" :clock-keep t)
+                (file+headline "~/Workspace/agenda/todo.org" "Inbox")
+                "* %U %? :NOTE:\n\n %i\n %a" :clock-keep t)
         ("b" "book" entry
-        (file+headline "~/Workspace/agenda/books.org" "Inbox")
-        "*  %? :book:\n%a\n"
-        :prepend t
-        :empty-lines 1
-        :CREATED t
-        :clock-keep t)
-))
+                (file+headline "~/Workspace/agenda/books.org" "Inbox")
+                "*  %? :book:\n%a\n"
+                :prepend t
+                :empty-lines 1
+                :CREATED t
+                :clock-keep t)
+      )
+)
+
 ;;;-----#END org capture-------------
 ;;;-----#START org cutom agenda view-------------
 (setq org-agenda-custom-commands
       '(("p" "Plan your agenda"
          (
+        (todo "TODO" (
+                (org-agenda-overriding-header "⚡ Coming up next")
+                (org-agenda-remove-tags nil)
+                (org-agenda-prefix-format "   %-2i %?b")
+                (org-agenda-todo-keyword-format "")))
+
           (tags  "+chore-TODO=\"TODO\"" (
                       (org-agenda-overriding-header "\n☂ Chores pending")
                       (org-agenda-remove-tags t)
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
                       (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-prefix-format "   %-2i %?b")
-                      (org-agenda-skip-entry-if 'todo '("TODO" "WAITING"))
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled 'todo '("WAITING" "TODO" "DONE" "HOLD")))
                       (org-agenda-todo-keyword-format "")))
 
          (tags "+NOTE-TODO=\"TODO\"" (
                       (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-overriding-header "⚡ Notes")
+                      (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-remove-tags t)
                       (org-agenda-prefix-format "   %-2i %?b")
-                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled 'todo '("WAITING" "TODO" "DONE" "HOLD")))
                       (org-agenda-todo-keyword-format "")))
          (tags "+book-TODO=\"TODO\"" (
                       (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-overriding-header "📚 Books and Blogs")
+                      (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-remove-tags t)
                       (org-agenda-prefix-format "   %-2i %?b")
-                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled 'todo '("WAITING" "TODO" "DONE" "HOLD")))
                       (org-agenda-todo-keyword-format "")))
-         ;; (todo "NEXT" (
-         ;;              (org-agenda-todo-ignore-scheduled 'all)
-         ;;              (org-agenda-overriding-header "⚡ THIS WEEK")
-         ;;              (org-agenda-remove-tags t)
-         ;;              (org-agenda-prefix-format "   %-2i %?b")
-         ;;              (org-agenda-todo-keyword-format "")))
-
          (tags "+work-TODO=\"TODO\"" (
                       ;; (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-overriding-header "🧠 Work")
                       (org-agenda-remove-tags t)
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-show-inherited-tags nil)
+                      (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-prefix-format "   %-2i %?b")
-                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled 'todo '("WAITING" "TODO" "DONE" "HOLD")))
                       (org-agenda-todo-keyword-format "")))
          (tags "+tech-TODO=\"TODO\"" (
                       ;; (org-agenda-todo-ignore-scheduled 'all)
@@ -198,16 +234,25 @@
                       (org-agenda-remove-tags t)
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-show-inherited-tags nil)
+                      (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-prefix-format "   %-2i %?b")
-                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled 'todo '("WAITING" "TODO" "DONE" "HOLD")))
                       (org-agenda-todo-keyword-format "")))
          (tags "+project-TODO=\"TODO\"" (
                       (org-agenda-overriding-header "\n🛹 Projects")
                       (org-agenda-remove-tags t)
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-show-inherited-tags nil)
+                      (org-agenda-todo-ignore-scheduled 'all)
                       (org-agenda-prefix-format "   %-2i %?b")
-                      (org-agenda-skip-entry-if 'todo '("TODO" "DONE"))
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled 'todo '("WAITING" "TODO" "DONE" "HOLD")))
+                      (org-agenda-todo-keyword-format "")))
+         (tags "+TODO=\"HOLD\"" (
+                      (org-agenda-overriding-header "\n❌ On Hold")
+                      (org-agenda-remove-tags nil)
+                      (org-tags-match-list-sublevels nil)
+                      (org-agenda-show-inherited-tags nil)
+                      (org-agenda-prefix-format "   %-2i %?b")
                       (org-agenda-todo-keyword-format "")))
           ))))
 

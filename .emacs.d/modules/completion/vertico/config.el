@@ -15,21 +15,37 @@ overrides `completion-styles' during company completion sessions.")
 
 (use-package! vertico
   :hook (doom-first-input . vertico-mode)
+  :init
+  (defadvice! +vertico-crm-indicator-a (args)
+    :filter-args #'completing-read-multiple
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
   :config
   (setq vertico-resize nil
         vertico-count 17
-        vertico-cycle t
-        completion-in-region-function
-        (lambda (&rest args)
-          (apply (if vertico-mode
-                     #'consult-completion-in-region
-                   #'completion--in-region)
-                 args)))
+        vertico-cycle t)
+  (setq-default completion-in-region-function
+                (lambda (&rest args)
+                  (apply (if vertico-mode
+                             #'consult-completion-in-region
+                           #'completion--in-region)
+                         args)))
   ;; Cleans up path when moving directories with shadowed paths syntax, e.g.
   ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
-  (map! :map vertico-map "DEL" #'vertico-directory-delete-char))
+  (map! :map vertico-map "DEL" #'vertico-directory-delete-char)
+
+  ;; These commands are problematic and automatically show the *Completions* buffer
+  (advice-add #'tmm-add-prompt :after #'minibuffer-hide-completions)
+  (defadvice! +vertico--suppress-completion-help-a (fn &rest args)
+    :around #'ffap-menu-ask
+    (letf! ((#'minibuffer-completion-help #'ignore))
+      (apply fn args))))
 
 
 (use-package! orderless
@@ -47,7 +63,7 @@ orderless."
     (cond
      ;; Ensure $ works with Consult commands, which add disambiguation suffixes
      ((string-suffix-p "$" pattern)
-      `(orderless-regexp . ,(concat (substring pattern 0 -1) "[\x100000-\x10FFFD]*$")))
+      `(orderless-regexp . ,(concat (substring pattern 0 -1) "[\x200000-\x300000]*$")))
      ;; Ignore single !
      ((string= "!" pattern) `(orderless-literal . ""))
      ;; Without literal
@@ -70,7 +86,7 @@ orderless."
      +vertico-basic-remote-try-completion
      +vertico-basic-remote-all-completions
      "Use basic completion on remote files only"))
-  (setq completion-styles '(orderless)
+  (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         ;; note that despite override in the name orderless can still be used in
         ;; find-file etc.
@@ -83,7 +99,7 @@ orderless."
 
 (use-package! consult
   :defer t
-  :init
+  :preface
   (define-key!
     [remap apropos]                       #'consult-apropos
     [remap bookmark-jump]                 #'consult-bookmark
@@ -101,7 +117,6 @@ orderless."
     [remap switch-to-buffer-other-frame]  #'consult-buffer-other-frame
     [remap yank-pop]                      #'consult-yank-pop
     [remap persp-switch-to-buffer]        #'+vertico/switch-workspace-buffer)
-  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
   (advice-add #'multi-occur :override #'consult-multi-occur)
   :config
   (defadvice! +vertico--consult-recent-file-a (&rest _args)
@@ -137,27 +152,65 @@ orderless."
   (consult-customize
    consult-theme
    :preview-key (list (kbd "C-SPC") :debounce 0.5 'any))
-  (after! org
+  (when (featurep! :lang org)
     (defvar +vertico--consult-org-source
-      `(:name     "Org"
-        :narrow   ?o
-        :hidden t
-        :category buffer
-        :state    ,#'consult--buffer-state
-        :items    ,(lambda () (mapcar #'buffer-name (org-buffer-list)))))
-    (add-to-list 'consult-buffer-sources '+vertico--consult-org-source 'append))
-  (map! :map consult-crm-map
-        :desc "Select candidate" [tab] #'+vertico/crm-select
-        :desc "Select candidate and keep input" [backtab] #'+vertico/crm-select-keep-input
-        :desc "Enter candidates" "RET" #'+vertico/crm-exit))
+      (list :name     "Org Buffer"
+            :category 'buffer
+            :narrow   ?o
+            :hidden   t
+            :face     'consult-buffer
+            :history  'buffer-name-history
+            :state    #'consult--buffer-state
+            :new
+            (lambda (name)
+              (with-current-buffer (get-buffer-create name)
+                (insert "#+title: " name "\n\n")
+                (org-mode)
+                (consult--buffer-action (current-buffer))))
+            :items
+            (lambda ()
+              (mapcar #'buffer-name
+                      (if (featurep 'org)
+                          (org-buffer-list)
+                        (seq-filter
+                         (lambda (x)
+                           (eq (buffer-local-value 'major-mode x) 'org-mode))
+                         (buffer-list)))))))
+    (add-to-list 'consult-buffer-sources '+vertico--consult-org-source 'append)))
 
 
 (use-package! consult-dir
   :bind (([remap list-directory] . consult-dir)
          :map vertico-map
          ("C-x C-d" . consult-dir)
-         ("C-x C-j" . consult-dir-jump-file)))
+         ("C-x C-j" . consult-dir-jump-file))
+  :config
+  (when (featurep! :tools docker)
+    (defun +vertico--consult-dir-docker-hosts ()
+      "Get a list of hosts from docker."
+      (when (require 'docker-tramp nil t)
+        (let ((hosts)
+              (docker-tramp-use-names t))
+          (dolist (cand (docker-tramp--parse-running-containers))
+            (let ((user (unless (string-empty-p (car cand))
+                          (concat (car cand) "@")))
+                  (host (car (cdr cand))))
+              (push (concat "/docker:" user host ":/") hosts)))
+          hosts)))
 
+    (defvar +vertico--consult-dir-source-tramp-docker
+      `(:name     "Docker"
+        :narrow   ?d
+        :category file
+        :face     consult-file
+        :history  file-name-history
+        :items    ,#'+vertico--consult-dir-docker-hosts)
+      "Docker candiadate source for `consult-dir'.")
+
+    (add-to-list 'consult-dir-sources '+vertico--consult-dir-source-tramp-docker t))
+
+  (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-ssh t)
+  (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-local t))
 
 (use-package! consult-flycheck
   :when (featurep! :checkers syntax)
@@ -179,7 +232,9 @@ orderless."
         (:leader
          :desc "Actions" "a" #'embark-act)) ; to be moved to :config default if accepted
   :config
-  (set-popup-rule! "^\\*Embark Export Grep" :size 0.35 :ttl 0 :quit nil)
+  (require 'consult)
+
+  (set-popup-rule! "^\\*Embark Export:" :size 0.35 :ttl 0 :quit nil)
 
   (defadvice! +vertico--embark-which-key-prompt-a (fn &rest args)
     "Hide the which-key indicator immediately when using the completing-read prompter."

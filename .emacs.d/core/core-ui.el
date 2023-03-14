@@ -307,7 +307,10 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 (setq resize-mini-windows 'grow-only)
 
 ;; Typing yes/no is obnoxious when y/n will do
-(advice-add #'yes-or-no-p :override #'y-or-n-p)
+(if EMACS28+
+    (setq use-short-answers t)
+  ;; DEPRECATED Remove when we drop 27.x support
+  (advice-add #'yes-or-no-p :override #'y-or-n-p))
 
 ;; Try to keep the cursor out of the read-only portions of the minibuffer.
 (setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
@@ -331,6 +334,7 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
         compilation-ask-about-save nil  ; save all buffers on `compile'
         compilation-scroll-output 'first-error)
   ;; Handle ansi codes in compilation buffer
+  ;; DEPRECATED Use `ansi-color-compilation-filter' when dropping 27.x support
   (add-hook 'compilation-filter-hook #'doom-apply-ansi-color-to-compilation-buffer-h)
   ;; Automatically truncate compilation buffers so they don't accumulate too
   ;; much data and bog down the rest of Emacs.
@@ -519,7 +523,8 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 ;; User themes should live in $DOOMDIR/themes, not ~/.emacs.d
 (setq custom-theme-directory (concat doom-private-dir "themes/"))
 
-;; Always prioritize the user's themes above the built-in/packaged ones.
+;; Third party themes add themselves to `custom-theme-load-path', but the themes
+;; living in $DOOMDIR/themes should always have priority.
 (setq custom-theme-load-path
       (cons 'custom-theme-directory
             (delq 'custom-theme-directory custom-theme-load-path)))
@@ -590,6 +595,7 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
         (when (and (not no-enable) (custom-theme-enabled-p theme))
           (setq doom-theme theme)
           (put 'doom-theme 'previous-themes (or last-themes 'none))
+          ;; DEPRECATED Hook into `enable-theme-functions' when we target 29
           (doom-run-hooks 'doom-load-theme-hook))))))
 
 
