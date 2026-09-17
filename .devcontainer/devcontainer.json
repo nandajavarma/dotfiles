@@ -1,0 +1,7 @@
+{
+  "name": "Defense Factory Scanner",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:5.2.1-22-bookworm@sha256:ec12180252047b3400ffffe008789cb8462bfff6f0703e285c2fb9986d47dae7",
+  "runArgs": [
+    "--security-opt=seccomp=${localWorkspaceFolder}/.devcontainer/defense-factory-seccomp.json"
+  ]
+}
